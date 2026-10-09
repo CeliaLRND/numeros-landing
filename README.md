@@ -25,7 +25,9 @@ Les mêmes URL vont dans App Store Connect (URL de la politique de confidentiali
 - `index.html` : remplacer le bouton « Bientôt sur l'App Store » par le lien de la fiche (`href`, et retirer
   `aria-disabled`).
 
-## Activer PostHog
+## PostHog
 
-1. `analytics.js` : coller la clé du projet dans `POSTHOG_KEY` (projet hébergé en UE).
-2. `confidentialite.html` : décommenter la section « Mesure d'audience » et changer la date en haut.
+L'app utilise PostHog (UE, sans identify) et la politique de confidentialité le décrit, section
+« Mesure d'audience et diagnostic ». Le site n'a pas de mesure : `analytics.js` reste inactif (clé vide).
+Pour l'activer un jour, coller la clé du projet dans `POSTHOG_KEY` et mettre à jour la section « Ce site »
+de `confidentialite.html`.
