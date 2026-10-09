@@ -14,10 +14,10 @@ Landing et pages légales de l'app, en HTML et CSS sans build. Servi par GitHub 
 1. Dépôt **public** `CeliaLRND/numeros-landing`.
 2. Y copier le contenu de ce dossier, à la racine, puis pousser sur `main`.
 3. Settings → Pages → Source : « Deploy from a branch », branche `main`, dossier `/ (root)`.
-4. Le site arrive sur `https://celialrnd.github.io/numeros-landing/`.
+4. Le site arrive sur `https://numeros.hellocelia.fr/` (fichier `CNAME`, à garder dans chaque copie).
 
-L'app pointe vers `https://celialrnd.github.io/numeros-landing/conditions.html` et `…/confidentialite.html`
-(`src/features/paywall/offer.ts`). Si le dépôt porte un autre nom, changer ces deux URL.
+L'app pointe vers `https://numeros.hellocelia.fr/conditions.html` et `…/confidentialite.html`
+(`src/features/paywall/offer.ts`).
 Les mêmes URL vont dans App Store Connect (URL de la politique de confidentialité, et EULA si besoin).
 
 ## Avant la sortie
