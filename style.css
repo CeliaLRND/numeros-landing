@@ -1,0 +1,627 @@
+/*
+ * NŪMEROS, même design que l'app (voir DESIGN.md).
+ * Clair seulement. Texte encre ou gris, jamais coloré. Rouge pour le wordmark
+ * et le seul bouton principal. Une teinte par page : la lueur du nombre.
+ */
+
+:root {
+  --bg: #f7f6f3;
+  --surface: #ffffff;
+  --ink: #141216;
+  --muted: #5e5962;
+  --line: #e6e3df;
+  --soft: #efedea;
+  --accent: #e8202a;
+  --accent-dark: #b5121b;
+  --on-accent: #ffffff;
+  /* Teinte de la page : le 8 par défaut. */
+  --hue: #c98a12;
+
+  --display: 'Bricolage Grotesque', system-ui, sans-serif;
+  --text: 'DM Sans', system-ui, sans-serif;
+
+  --ease: cubic-bezier(0.23, 1, 0.32, 1);
+  --press: 120ms;
+  --enter: 260ms;
+  --stagger: 60ms;
+
+  --shadow-card: 0 1px 2px rgba(20, 18, 22, 0.04), 0 8px 24px rgba(20, 18, 22, 0.06);
+  --shadow-lifted: 0 2px 4px rgba(20, 18, 22, 0.05), 0 18px 40px rgba(20, 18, 22, 0.1);
+
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Enregistrée pour que la lueur glisse d'une couleur à l'autre. */
+@property --hue {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #c98a12;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  overflow-x: clip;
+  transition: --hue 600ms var(--ease);
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 16px/1.5 var(--text);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Lueur du nombre, en haut de page. Elle défile avec le contenu. */
+.glow {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 560px;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(60% 55% at 50% 0%, color-mix(in srgb, var(--hue) 34%, transparent), transparent 70%),
+    radial-gradient(35% 40% at 78% 8%, color-mix(in srgb, var(--hue) 22%, transparent), transparent 70%);
+}
+
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding: 0 32px;
+  }
+}
+
+/* Textes : 5 tailles, 3 styles. */
+h1,
+h2,
+h3 {
+  font-family: var(--display);
+  font-weight: 800;
+  margin: 0;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: 32px;
+  line-height: 36px;
+  letter-spacing: -0.6px;
+}
+
+h2 {
+  font-size: 20px;
+  line-height: 26px;
+}
+
+p {
+  margin: 0;
+}
+
+.small {
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.label {
+  font: 700 13px/18px var(--text);
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+a {
+  color: inherit;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.skip {
+  position: absolute;
+  left: 16px;
+  top: -60px;
+  z-index: 10;
+  padding: 10px 16px;
+  background: var(--ink);
+  color: var(--surface);
+  border-radius: 999px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.skip:focus {
+  top: 12px;
+}
+
+/* En-tête : le wordmark seul. */
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 72px;
+}
+
+.wordmark {
+  display: inline-flex;
+  font: 800 22px/1 var(--display);
+  letter-spacing: -0.4px;
+  color: var(--ink);
+  text-decoration: none;
+  padding: 10px 0;
+}
+
+/* Le macron : une barre de calcul rouge posée au-dessus du U. */
+.wordmark .u {
+  position: relative;
+}
+
+.wordmark .u::before {
+  content: '';
+  position: absolute;
+  left: 0.04em;
+  right: 0.04em;
+  top: -0.1em;
+  height: 0.12em;
+  border-radius: 0.06em;
+  background: var(--accent);
+}
+
+/* Bouton principal : pilule rouge de 56 px, un seul par page. */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 56px;
+  padding: 0 28px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font: 700 16px/1 var(--text);
+  text-decoration: none;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform var(--press) var(--ease), background-color var(--press) var(--ease);
+}
+
+.button:hover {
+  background: var(--accent-dark);
+}
+
+.button:active {
+  transform: scale(0.97);
+}
+
+.button[aria-disabled='true'] {
+  cursor: default;
+}
+
+.button[aria-disabled='true']:hover {
+  background: var(--accent);
+}
+
+.button svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+
+/* Pied de page commun. */
+.foot {
+  margin-top: 96px;
+  padding: 24px 0 40px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.foot nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 20px;
+}
+
+.foot nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: opacity var(--press) var(--ease);
+}
+
+.foot nav a:hover,
+.foot nav a[aria-current='page'] {
+  text-decoration: underline;
+}
+
+.foot nav a:active {
+  opacity: 0.6;
+}
+
+/* ---------- Landing ---------- */
+
+.hero {
+  padding: 40px 0 0;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: clamp(48px, 13vw, 96px);
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+}
+
+.hero .lede {
+  max-width: 36ch;
+  margin: 20px auto 0;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--muted);
+}
+
+.hero .cta {
+  margin-top: 32px;
+}
+
+.hero .cta-note {
+  margin-top: 12px;
+}
+
+/* Le ticket du jour : corps + talon, séparés par une perforation. */
+.ticket-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 56px 0 0;
+  /* Place pour le talon détaché. */
+  padding-right: 12px;
+}
+
+.ticket {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  width: min(100%, 420px);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+  filter: drop-shadow(0 18px 30px rgba(20, 18, 22, 0.1)) drop-shadow(0 2px 3px rgba(20, 18, 22, 0.05));
+}
+
+.ticket:focus-visible {
+  outline-offset: 8px;
+  border-radius: 20px;
+}
+
+.ticket-body,
+.ticket-stub {
+  position: relative;
+  background: var(--surface);
+  /* Encoches demi-cercle aux deux bouts de la perforation. */
+  --notch: radial-gradient(circle 10px at var(--nx) 0, transparent 9.5px, #000 10px),
+    radial-gradient(circle 10px at var(--nx) 100%, transparent 9.5px, #000 10px);
+  -webkit-mask: var(--notch);
+  -webkit-mask-composite: source-in;
+  mask: var(--notch);
+  mask-composite: intersect;
+}
+
+.ticket-body {
+  --nx: 100%;
+  border-radius: 20px 0 0 20px;
+  padding: 22px 22px 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+.ticket-stub {
+  --nx: 0;
+  border-radius: 0 20px 20px 0;
+  width: clamp(92px, 26vw, 116px);
+  padding: 22px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  /* La perforation, en pointillés sur le bord gauche du talon. */
+  background-image: linear-gradient(var(--line) 50%, transparent 0);
+  background-size: 1.5px 10px;
+  background-repeat: repeat-y;
+  background-position: 0 center;
+  background-color: var(--surface);
+  transform-origin: 0 100%;
+}
+
+.ticket-stub .no {
+  font: 700 13px/18px var(--text);
+  letter-spacing: 0.9px;
+  color: var(--muted);
+}
+
+.ticket-stub .digits {
+  font: 800 48px/1 var(--display);
+  letter-spacing: -2px;
+  font-variant-numeric: tabular-nums;
+  min-width: 2ch;
+  text-align: center;
+}
+
+.ticket-stub .dot {
+  width: 10px;
+  height: 10px;
+  margin-top: 8px;
+  border-radius: 50%;
+  background: var(--hue);
+}
+
+.ticket-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 12px;
+  white-space: nowrap;
+}
+
+.ticket-focus,
+.ticket-line {
+  transition: opacity 160ms var(--ease);
+}
+
+.ticket.swap .ticket-focus,
+.ticket.swap .ticket-line {
+  opacity: 0;
+}
+
+.ticket-focus {
+  font: 800 32px/36px var(--display);
+  letter-spacing: -0.6px;
+}
+
+.ticket-line {
+  font-weight: 700;
+}
+
+.ticket-hint {
+  text-align: center;
+  margin-top: 16px;
+}
+
+/* Les trois choses que fait l'app : label sur valeur. */
+.features {
+  margin-top: 96px;
+}
+
+.features h2 {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.feature-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.feature {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 16px;
+  align-items: start;
+  padding: 20px;
+  background: var(--surface);
+  border-radius: 20px;
+  box-shadow: var(--shadow-card);
+}
+
+.feature .badge {
+  grid-row: span 2;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--soft);
+  font: 800 20px/1 var(--display);
+  font-variant-numeric: tabular-nums;
+}
+
+.feature h3 {
+  font-size: 20px;
+  line-height: 26px;
+}
+
+.feature p {
+  color: var(--muted);
+}
+
+.closing {
+  margin-top: 96px;
+  text-align: center;
+}
+
+.closing p {
+  margin-top: 8px;
+}
+
+/* ---------- Pages légales ---------- */
+
+.legal {
+  padding-top: 32px;
+}
+
+.legal header {
+  margin-bottom: 40px;
+}
+
+.legal header .label {
+  margin-bottom: 8px;
+}
+
+.legal header p {
+  margin-top: 12px;
+}
+
+.legal section {
+  padding: 28px 0;
+  border-top: 1px solid var(--line);
+}
+
+.legal section h2 {
+  margin-bottom: 12px;
+}
+
+.legal section p + p,
+.legal section p + ul,
+.legal section ul + p {
+  margin-top: 12px;
+}
+
+.legal ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.legal li + li {
+  margin-top: 6px;
+}
+
+.legal strong {
+  font-weight: 700;
+}
+
+.legal address {
+  font-style: normal;
+}
+
+/* ---------- Mouvement ---------- */
+
+/*
+ * L'état de départ n'existe qu'avec JS (classe `js` sur <html>) :
+ * sans script, tout est visible tout de suite.
+ */
+.js .enter {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.js .enter.in {
+  opacity: 1;
+  transform: none;
+  transition: opacity var(--enter) var(--ease), transform var(--enter) var(--ease);
+  transition-delay: calc(var(--i, 0) * var(--stagger));
+}
+
+.js .glow {
+  opacity: 0;
+  transition: opacity 900ms var(--ease);
+}
+
+.js .glow.lit {
+  opacity: 1;
+}
+
+/* Le talon se détache le long de la perforation. */
+.ticket-stub {
+  transition: transform 520ms var(--ease);
+}
+
+.ticket.torn .ticket-stub {
+  transform: translate(10px, 6px) rotate(4deg);
+}
+
+.ticket:active .ticket-body {
+  transform: scale(0.99);
+}
+
+.ticket-body {
+  transition: transform var(--press) var(--ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+    transition: none;
+  }
+
+  .js .enter,
+  .js .enter.in {
+    transform: none;
+  }
+
+  .js .enter.in {
+    transition: opacity 160ms linear;
+    transition-delay: 0ms;
+  }
+
+  .ticket-stub,
+  .ticket-body,
+  .button {
+    transition: none;
+  }
+
+  .ticket.torn .ticket-stub {
+    transform: translate(6px, 0);
+  }
+
+  .button:active,
+  .ticket:active .ticket-body {
+    transform: none;
+  }
+}
+
+.legal address + p {
+  margin-top: 16px;
+}
+
+.legal section > p:has(+ address) {
+  margin-bottom: 4px;
+}
