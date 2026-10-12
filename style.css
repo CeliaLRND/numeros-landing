@@ -169,6 +169,7 @@ a {
 
 /* En-tête : le wordmark seul. */
 .top {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -182,6 +183,27 @@ a {
   color: var(--ink);
   text-decoration: none;
   padding: 10px 0;
+}
+
+/* Lien vers l'autre langue, à droite du wordmark centré. */
+.lang {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 4px;
+  font: 700 13px/18px var(--text);
+  color: var(--muted);
+  text-decoration: none;
+  transition: color var(--press) var(--ease);
+}
+
+.lang:hover {
+  color: var(--ink);
+  text-decoration: underline;
 }
 
 /* Le macron : une barre de calcul rouge posée au-dessus du U. */

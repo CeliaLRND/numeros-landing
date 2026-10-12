@@ -5,6 +5,7 @@ Landing et pages légales de l'app, en HTML et CSS sans build. Servi par GitHub 
 - `index.html` : la landing
 - `conditions.html` : conditions d'utilisation et d'abonnement, mentions légales
 - `confidentialite.html` : politique de confidentialité
+- `terms.html`, `privacy.html` : les mêmes en anglais (la version française prévaut)
 - `style.css` : le design de l'app (voir `DESIGN.md`)
 - `site.js` : le mouvement de la landing (le contenu reste lisible sans lui)
 - `analytics.js` : PostHog, inactif tant que la clé est vide
@@ -18,7 +19,8 @@ Landing et pages légales de l'app, en HTML et CSS sans build. Servi par GitHub 
 
 L'app pointe vers `https://numeros.hellocelia.fr/conditions.html` et `…/confidentialite.html`
 (`src/features/paywall/offer.ts`).
-Les mêmes URL vont dans App Store Connect (URL de la politique de confidentialité, et EULA si besoin).
+Pour une fiche App Store en anglais : `https://numeros.hellocelia.fr/terms.html` et `…/privacy.html`.
+Les URL françaises vont dans App Store Connect (URL de la politique de confidentialité, et EULA si besoin).
 
 ## Avant la sortie
 
